@@ -7,6 +7,8 @@ const {request,response} = require=('express');
 const createUniversidad = async (req = request, 
     res = response) => {
     try{
+
+        console.log('Peticion:', process.env.HOST);
         const nombre = req.body.nombre 
             ? req.body.nombre.toUpperCase()
             : ''
@@ -38,7 +40,8 @@ const createUniversidad = async (req = request,
 const getUniversidad = async (req = request, 
     res = response) => {
         try{
-            
+
+            console.log('Peticion:', process.env.HOST); 
             const universidadDB = await Universidad.find({})
             return res.json(universidadDB)
         }catch(e){
@@ -53,6 +56,8 @@ const getUniversidad = async (req = request,
 const updateUniversidad = async (req = request,
     res = response) => {
     try{
+
+        console.log('Peticion:', process.env.HOST);
         console.log(req.body)
         console.log(req.params)
         const data = req.body

@@ -1,15 +1,40 @@
 version: "3.7"
 services: 
-  microuniversidades:
-    container_name: microuniversidades
-    image: kevinmateo/microuniversidades:v1
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "3001:3001"
-    networks:
-      - ase-acad
+ microuniversidades01:
+  container_name: microuniversidades01
+  image: kevinmateo/microuniversidades:v1
+  build:
+    context: .
+  ports:
+   - "3001"
+  networks:
+   - ase-acad
+  environment:
+   HOST: microuniversidades01
+
+ microuniversidades02:
+  container_name: microuniversidades02
+  image: kevinmateo/microuniversidades:v1
+  ports:
+   - "3001"     
+  networks:
+   - ase-acad
+  environment:
+   HOST: microuniversidades02
+   
+ balanceador:
+  container_name: balanceador_microuniversidades
+  image: kevinmateo/balanceador_microuniversidades:v1.0
+  build:
+   context: ./balanceador
+  ports:
+   - "8082:80"
+  networks:
+   - ase-acad
+  depends_on:
+   - microuniversidades01
+   - microuniversidades02
+  restart: always   
+  
 networks:
-  ase-acad:
-    driver: bridge
+ ase-acad:
